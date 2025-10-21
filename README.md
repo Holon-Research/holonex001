@@ -38,3 +38,8 @@ To learn more about the AI SDK or Next.js take a look at the following resources
 - [AI SDK docs](https://sdk.vercel.ai/docs)
 - [Vercel AI Playground](https://play.vercel.ai)
 - [Next.js Documentation](https://nextjs.org/docs)
+
+## Holon Research
+
+Experiment 001: This chat application implements pseudo Chain-of-Thought (CoT) reasoning with real-time visibility into the reasoning process and dharma-alignment loss function evaluation. The app uses an iterative loop to generate sequential reasoning steps before producing final outputs, with each step evaluated against coherence signatures and dharma-alignment metrics.
+
