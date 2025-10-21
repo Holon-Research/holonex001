@@ -1,10 +1,15 @@
-# Multi-Steps Preview
+## Holon Research
 
-This example demonstrates how to use the [AI SDK](https://sdk.vercel.ai/docs) with [Next.js](https://nextjs.org/) and the `streamText` function to automatically handle multi-step generations.
+Experiment 001: This chat application implements pseudo Chain-of-Thought (CoT) reasoning with real-time visibility into the reasoning process and dharma-alignment loss function evaluation. The app uses an iterative loop to generate sequential reasoning steps before producing final outputs, with each step evaluated against coherence signatures and dharma-alignment metrics.
 
-## Deploy your own
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel-labs%2Fai-sdk-preview-steps-reasoning&env=OPENAI_API_KEY&envDescription=OpenAI%20API%20Key%20Needed&envLink=https%3A%2F%2Fplatform.openai.com)
+# Multi-Step Wisdom Reasoning
+
+Research
+
+Loss function values correlate with human judgments of reasoning quality
+Temporal coherence metrics distinguish good vs poor reasoning chains
+Users can identify improvements by observing logs panel
 
 ## How to use
 
@@ -31,15 +36,13 @@ To run the example locally you need to:
 5. `npm run dev` to launch the development server.
 
 
-## Learn More
+## What this is built on
+
+This example demonstrates how to use the [AI SDK](https://sdk.vercel.ai/docs) with [Next.js](https://nextjs.org/) and the `streamText` function to automatically handle multi-step generations.
 
 To learn more about the AI SDK or Next.js take a look at the following resources:
 
 - [AI SDK docs](https://sdk.vercel.ai/docs)
 - [Vercel AI Playground](https://play.vercel.ai)
 - [Next.js Documentation](https://nextjs.org/docs)
-
-## Holon Research
-
-Experiment 001: This chat application implements pseudo Chain-of-Thought (CoT) reasoning with real-time visibility into the reasoning process and dharma-alignment loss function evaluation. The app uses an iterative loop to generate sequential reasoning steps before producing final outputs, with each step evaluated against coherence signatures and dharma-alignment metrics.
 
