@@ -14,7 +14,8 @@ export default function Home() {
   
   // Extract reasoning steps from data stream
   const reasoningSteps = data?.filter((item: any) => item.type === "reasoning-step").map((item: any) => item.content) || [];
-  const finalText = data?.find((item: any) => item.type === "text")?.content || "";
+  const finalTextItem = data?.find((item: any) => item.type === "text");
+  const finalText = (finalTextItem && typeof finalTextItem === 'object' && 'content' in finalTextItem) ? String(finalTextItem.content) : "";
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [messagesContainerRef, messagesEndRef] =
@@ -22,9 +23,19 @@ export default function Home() {
 
   const suggestedActions = [
     {
-      title: "I'm a UK military leader",
-      label: "Should I goto war with Russia?",
-      action: "I'm a UK military leader. Should I goto war with Russia?",
+      title: "Ethical Reasoning",
+      label: "Should we implement universal basic income?",
+      action: "Should we implement universal basic income? Consider all stakeholders and trade-offs.",
+    },
+    {
+      title: "Strategic Decision",
+      label: "How should we approach climate change policy?",
+      action: "How should we approach climate change policy? Think through multiple perspectives and uncertainties.",
+    },
+    {
+      title: "Complex Problem",
+      label: "Is AI safety more important than AI capabilities?",
+      action: "Is AI safety more important than AI capabilities? Examine assumptions and interdependencies.",
     },
   ];
 
@@ -38,27 +49,48 @@ export default function Home() {
           {messages.length === 0 && (
             <motion.div className="h-[350px] px-4 w-full md:w-[500px] md:px-0 pt-20">
               <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
-                <p className="flex flex-row justify-center gap-4 items-center text-zinc-900 dark:text-zinc-50">
-                  <VercelIcon size={16} />
-                  <span>+</span>
-                  <MasonryIcon />
+                {/* Contemplative Lotus Icon */}
+                <div className="flex flex-row justify-center items-center">
+                  <svg
+                    className="w-12 h-12 text-purple-600 dark:text-purple-400"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    {/* Lotus flower - symbol of contemplative wisdom */}
+                    <path d="M12 2C9.5 5 8 7.5 8 10c0 2.21 1.79 4 4 4s4-1.79 4-4c0-2.5-1.5-5-4-8z" opacity="0.6" />
+                    <path d="M7 10c-2 1-3.5 2.5-4 4.5-.5 2 0 3.5 2 4.5 1.5.7 3 .5 4.5-.5-1-1-1.5-2.5-1.5-4 0-1.5.5-3 1-4.5-.7 0-1.4 0-2 0z" />
+                    <path d="M17 10c2 1 3.5 2.5 4 4.5.5 2 0 3.5-2 4.5-1.5.7-3 .5-4.5-.5 1-1 1.5-2.5 1.5-4 0-1.5-.5-3-1-4.5.7 0 1.4 0 2 0z" />
+                    <path d="M12 14c-1.5 2-2.5 4-2.5 6 0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5c0-2-.5-4-2.5-6z" opacity="0.8" />
+                  </svg>
+                </div>
+                
+                {/* Research Title */}
+                <h2 className="text-center text-zinc-900 dark:text-zinc-50 font-semibold text-base">
+                  Contemplative Dharma Reasoning
+                </h2>
+                
+                {/* Research Description */}
+                <p className="text-center leading-relaxed">
+                  An <strong>auto-iterative reasoning system</strong> that guides AI thinking toward contemplative wisdom through LLM-generated feedback on four principles: <em>mindfulness</em>, <em>emptiness</em>, <em>non-duality</em>, and <em>boundless care</em>.
                 </p>
-                <p className="text-center">
-                  Multi-step generations with gpt-4o-mini (
+                
+                {/* Tech Stack */}
+                <p className="text-center text-xs">
+                  Powered by{" "}
                   <Link
-                    className="text-blue-500 dark:text-blue-400"
+                    className="text-purple-600 dark:text-purple-400 hover:underline"
                     href="https://openai.com"
                     target="_blank"
                   >
-                    OpenAI
+                    GPT-4
                   </Link>
-                  ) and the{" "}
+                  {" "}with server-controlled iteration via{" "}
                   <Link
-                    className="text-blue-500 dark:text-blue-400"
+                    className="text-purple-600 dark:text-purple-400 hover:underline"
                     href="https://sdk.vercel.ai"
                     target="_blank"
                   >
-                    AI SDK
+                    Vercel AI SDK
                   </Link>
                 </p>
               </div>

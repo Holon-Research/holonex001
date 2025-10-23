@@ -4,9 +4,9 @@ import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ai-sdk-preview-roundtrips.vercel.app"),
-  title: "Multi-Step Reasoning with the AI SDK",
+  title: "Contemplative Dharma Reasoning",
   description:
-    "Reasoning with multi-step generations and the AI SDK",
+    "An auto-iterative AI reasoning system that cultivates contemplative wisdom through LLM-generated feedback on mindfulness, emptiness, non-duality, and boundless care.",
 };
 
 export default function RootLayout({
