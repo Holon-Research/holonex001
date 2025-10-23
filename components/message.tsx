@@ -74,6 +74,7 @@ export const Message = ({
                   <ReasoningStep step={toolInvocations[0].result} key={i} />
                 );
               }
+              return null; // Add explicit null return for React
             })}
           </div>
         ) : null}
@@ -93,7 +94,7 @@ export const Message = ({
 
                 return (
                   <div key={toolCallId}>
-                    {toolName === "addAReasoningStep" ? (
+                    {toolName === "addReasoningStep" ? (
                       <ReasoningStep step={result} />
                     ) : null}
                   </div>

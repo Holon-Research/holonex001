@@ -1,0 +1,812 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>PRD — Auto-Iterative Dharma Reasoning </title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(134, 131, 126, 1);
+	fill: rgba(134, 131, 126, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(134, 131, 126, 1);
+	fill: rgba(134, 131, 126, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2950fc94-f9ec-806b-8ecd-cc0caa1e5de0" class="page sans"><header><h1 class="page-title">PRD — Auto-Iterative Dharma Reasoning </h1><p class="page-description"></p></header><div class="page-body"><blockquote id="2950fc94-f9ec-80b9-9058-dea0d0a07925" class="">Repo context: Next.js + Vercel AI SDK with visible reasoning. We’ll extend the server route to auto-iterate until a stopping condition based on the Dharma score is met. </blockquote><h2 id="2950fc94-f9ec-80c8-9052-fed421703869" class="">Objective</h2><p id="2950fc94-f9ec-80aa-8b67-d2fd7b5c37ff" class="">Each reasoning step is <strong>rendered on the frontend as it streams</strong>, with a structured <strong>Thought + Dharma score</strong>. The server <strong>automatically triggers the next step</strong> until the score converges/improves sufficiently, then emits a <strong>final answer</strong>.</p><h2 id="2950fc94-f9ec-804a-a8c9-c8dbbb0782db" class="">Contract for each reasoning step (unchanged)</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2950fc94-f9ec-80d1-9208-eb21abcdc9ac" class="code code-wrap"><code class="language-TypeScript" style="white-space:pre-wrap;word-break:break-all">parameters: z.object({
+  title: z.string().describe(&quot;The title of this reasoning step&quot;),
+  content: z.string().describe(
+    &quot;The content of the reasoning step. WRITE OUT ALL OF YOUR WORK. Include mathematical proof where relevant.&quot;
+  ),
+  dharma: dharmaSchema.describe(
+    &quot;Evaluate this reasoning step against the four contemplative principles&quot;
+  ),
+  nextStep: z.enum([&quot;continue&quot;, &quot;finalAnswer&quot;]).describe(
+    &quot;Whether to continue reasoning or provide final answer&quot;
+  ),
+})
+
+</code></pre><h3 id="2950fc94-f9ec-80a7-87cb-d11968072da8" class=""><code>dharmaSchema</code> (shared)</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2950fc94-f9ec-803f-9118-df733642774c" class="code code-wrap"><code class="language-TypeScript" style="white-space:pre-wrap;word-break:break-all">const dharmaSchema = z.object({
+  mindfulness: z.number().min(0).max(1),
+  emptiness: z.number().min(0).max(1),
+  nonDuality: z.number().min(0).max(1),
+  boundlessCare: z.number().min(0).max(1),
+  rationale: z.string(),
+});
+
+</code></pre><h2 id="2950fc94-f9ec-8086-b23e-e49538fc8e86" class="">Termination policy (server-side)</h2><ul id="2950fc94-f9ec-803d-9865-d8d978147214" class="bulleted-list"><li style="list-style-type:disc"><strong>Score aggregation:</strong> <code>dharmaScore = mean(mindfulness, emptiness, nonDuality, boundlessCare)</code>.</li></ul><ul id="2950fc94-f9ec-8001-9316-cf98dc8368ef" class="bulleted-list"><li style="list-style-type:disc"><strong>Stop when</strong> any of the following:<ul id="2950fc94-f9ec-805c-9357-ced3266fd6aa" class="bulleted-list"><li style="list-style-type:circle"><strong>Target threshold met:</strong> <code>dharmaScore ≥ DHARMA_TARGET</code> (default <strong>0.9</strong>).</li></ul><ul id="2950fc94-f9ec-8023-ba18-f80ff713260d" class="bulleted-list"><li style="list-style-type:circle"><strong>Convergence:</strong> improvement <code>&lt; EPSILON</code> (default <strong>0.02</strong>) for <strong>PATIENCE</strong> consecutive steps (default <strong>2</strong>).</li></ul><ul id="2950fc94-f9ec-80f4-99f6-dc8e2798ad04" class="bulleted-list"><li style="list-style-type:circle"><strong>Max steps:</strong> <code>MAX_STEPS</code> (default <strong>10</strong>) reached.</li></ul><ul id="2950fc94-f9ec-808b-ba96-cfd79a508cf7" class="bulleted-list"><li style="list-style-type:circle">Model explicitly returns <code>nextStep:&quot;finalAnswer&quot;</code>.</li></ul><p id="2950fc94-f9ec-8081-87c4-fca3974d3d3b" class="">
+</p></li></ul><p id="2950fc94-f9ec-802f-89c3-c261a9f908ad" class="">Config via env:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2950fc94-f9ec-8070-962f-fa5568c7bb8c" class="code code-wrap"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">DHARMA_TARGET=0.9
+DHARMA_EPSILON=0.02
+DHARMA_PATIENCE=2
+DHARMA_MAX_STEPS=6
+
+</code></pre><h2 id="2950fc94-f9ec-80c1-924f-f05ec48a8233" class="">Server loop (concept)</h2><ul id="2950fc94-f9ec-8078-889d-c9491d7dad7c" class="bulleted-list"><li style="list-style-type:disc">Route: <code>app/api/reason/route.ts</code></li></ul><ul id="2950fc94-f9ec-8056-83f8-ebb8a75d170f" class="bulleted-list"><li style="list-style-type:disc">After each streamed step:<ol type="1" id="2950fc94-f9ec-80a9-909c-e42527598bc0" class="numbered-list" start="1"><li><strong>Score</strong> with <code>scoreDharma(step.content)</code>.</li></ol><ol type="1" id="2950fc94-f9ec-800b-91b9-c26d3ab8d3ab" class="numbered-list" start="2"><li><strong>Emit</strong> <code>{title, content, dharma, nextStep}</code> immediately (SSE chunk).</li></ol><ol type="1" id="2950fc94-f9ec-8077-a23b-f2d9f9dbb9a8" class="numbered-list" start="3"><li><strong>Update</strong> convergence state and <strong>decide</strong> to continue/stop.</li></ol><ol type="1" id="2950fc94-f9ec-8078-84fe-fae1cc77640f" class="numbered-list" start="4"><li>If continuing, <strong>append</strong> the step (and score) to the running context and <strong>prompt</strong> the model to refine toward higher Dharma score.</li></ol></li></ul><p id="2950fc94-f9ec-8056-af5e-e01af5dabab3" class=""><em>Pseudocode</em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2950fc94-f9ec-80f5-89f8-feb6f6d45001" class="code code-wrap"><code class="language-TypeScript" style="white-space:pre-wrap;word-break:break-all">let best = 0, patience = 0;
+for (let i = 1; i &lt;= MAX_STEPS; i++) {
+  const step = await generateStep(context);         // via Vercel AI SDK
+  const dharma = scoreDharma(step.content);         // returns object + mean
+  const score = mean(dharma);
+  emit({ ...step, dharma, nextStep: &quot;continue&quot; });  // stream to UI now
+
+  if (score &gt; best + EPSILON) { best = score; patience = 0; } else { patience++; }
+
+  const stop =
+    score &gt;= TARGET || patience &gt;= PATIENCE || i === MAX_STEPS || step.nextStep === &quot;finalAnswer&quot;;
+
+  if (stop) {
+    emit({ ...finalize(context, step), dharma, nextStep: &quot;finalAnswer&quot; });
+    break;
+  }
+
+  context = refineContext(context, step, dharma);   // include Thought+score and a refinement instruction
+}
+
+</code></pre><h2 id="2950fc94-f9ec-80cf-967c-f2662935fcc9" class="">Frontend UX</h2><ul id="2950fc94-f9ec-800f-bcb9-f8d8515bca35" class="bulleted-list"><li style="list-style-type:disc"><strong>Reasoning Panel</strong> streams <strong>cards</strong>: Title, Thought (content), Dharma breakdown (bars + rationale), running score.</li></ul><ul id="2950fc94-f9ec-80a0-a25e-d6f71aa6aa72" class="bulleted-list"><li style="list-style-type:disc">A subtle “Improving…” ticker shows progress toward target; then a <strong>Final Answer</strong> appears as Text.</li></ul><ul id="2950fc94-f9ec-80ca-828f-e877365cab1b" class="bulleted-list"><li style="list-style-type:disc">Timeline is scrollable. </li></ul><h2 id="2950fc94-f9ec-8034-a431-e13c608a2cbc" class="">Data &amp; Telemetry</h2><ul id="2950fc94-f9ec-8085-bd24-ec04a45e84a2" class="bulleted-list"><li style="list-style-type:disc"><strong>Per step log:</strong> <code>{ runId, stepIndex, title, content, dharma, score, tokensIn/out, latencyMs }</code></li></ul><ul id="2950fc94-f9ec-8053-9cf5-dbd4862bda59" class="bulleted-list"><li style="list-style-type:disc"><strong>Storage:</strong> start with IndexedDB (client) or JSON file (server); add Supabase DB later.</li></ul><ul id="2950fc94-f9ec-8056-8bb5-f28546fcca80" class="bulleted-list"><li style="list-style-type:disc"><strong>Flags:</strong> <code>LOG_STEPS=true</code> to persist; redact secrets.</li></ul><hr id="2950fc94-f9ec-8095-aacf-ce90083e754b"/><h2 id="2950fc94-f9ec-8022-96b9-cb2d80aab18e" class="">Sprint roadmap</h2><h3 id="2950fc94-f9ec-80cb-8b68-d595d6fcddc6" class="">Need-to-have (Sprints 1–3)</h3><table id="2950fc94-f9ec-8032-9407-e1eb551d225a" class="simple-table"><thead class="simple-table-header"><tr id="2950fc94-f9ec-8030-9b6b-cc3d779d82e4"><th id="[\xw" class="simple-table-header-color simple-table-header">Sprint</th><th id="SqPY" class="simple-table-header-color simple-table-header">Feature / Deliverable</th><th id="Sdt|" class="simple-table-header-color simple-table-header">Description &amp; Acceptance Criteria</th></tr></thead><tbody><tr id="2950fc94-f9ec-8008-9003-cb0b6f9ee0eb"><td id="[\xw" class="">1</td><td id="SqPY" class=""><strong>Schemas &amp; scoring</strong></td><td id="Sdt|" class="">Implement <code>dharmaSchema</code>, <code>parameters</code>, and <code>scoreDharma(text)</code> (heuristic v0). Unit tests validate ranges and mean calc.</td></tr><tr id="2950fc94-f9ec-80c8-bc25-fd509f438aea"><td id="[\xw" class="">1</td><td id="SqPY" class=""><strong>Auto-iteration loop (server)</strong></td><td id="Sdt|" class=""><code>route.ts</code> emits <strong>per-step</strong> payloads as they stream, scores each step, and <strong>auto-continues</strong> until termination policy triggers. Works with Vercel AI SDK; no client acks required.</td></tr><tr id="2950fc94-f9ec-80e1-b6a1-fe3bcb005fb7"><td id="[\xw" class="">1</td><td id="SqPY" class=""><strong>Reasoning Panel (UI)</strong></td><td id="Sdt|" class="">Renders each step (title, content, four scores + rationale, overall score). Shows a lightweight progress indicator (“Step n · score 0.62 → 0.68”).</td></tr><tr id="2950fc94-f9ec-8057-a218-c8eb1e7a6dfd"><td id="[\xw" class="">2</td><td id="SqPY" class=""><strong>Termination policy</strong></td><td id="Sdt|" class="">Env-driven: TARGET, EPSILON, PATIENCE, MAX_STEPS; acceptance: loop stops correctly in unit/integration tests (mock model).</td></tr><tr id="2950fc94-f9ec-802f-b63e-c6a35d2dde5b"><td id="[\xw" class="">2</td><td id="SqPY" class=""><strong>Context refinement</strong></td><td id="Sdt|" class="">After each step, append Thought + score and add a <strong>refine instruction</strong> to steer next step toward improved score; verified by simulated runs.</td></tr><tr id="2950fc94-f9ec-8035-9647-e7a912af561b"><td id="[\xw" class="">2</td><td id="SqPY" class=""><strong>Streaming robustness</strong></td><td id="Sdt|" class="">Schema validation on partial/malformed steps; retries with capped backoff; error message rendered in UI card.</td></tr><tr id="2950fc94-f9ec-80fe-95a7-e95aa86792e7"><td id="[\xw" class="">3</td><td id="SqPY" class=""><strong>Run export &amp; metrics</strong></td><td id="Sdt|" class="">Export JSON of full timeline; overlay of latency/tokens/score delta per step; minimal “Run details” page.</td></tr><tr id="2950fc94-f9ec-801f-8b8f-e064ddfbbd3b"><td id="[\xw" class="">3</td><td id="SqPY" class=""><strong>Provider abstraction</strong></td><td id="Sdt|" class="">Support at least two providers via existing SDK config; per-provider system prompts to <strong>enforce step structuring</strong>.</td></tr></tbody></table><h3 id="2950fc94-f9ec-8061-9062-c19775f22adf" class="">Nice-to-have (Sprints 4–7)</h3><table id="2950fc94-f9ec-802d-998a-c65e3285d0e5" class="simple-table"><thead class="simple-table-header"><tr id="2950fc94-f9ec-8033-9f35-fde4025bb82f"><th id=";wDv" class="simple-table-header-color simple-table-header">Sprint</th><th id="Kji[" class="simple-table-header-color simple-table-header">Feature / Deliverable</th><th id="yL^|" class="simple-table-header-color simple-table-header">Description &amp; Acceptance Criteria</th></tr></thead><tbody><tr id="2950fc94-f9ec-80d7-833e-cb4805e7fcb1"><td id=";wDv" class="">4</td><td id="Kji[" class=""><strong>Parsimony nudging</strong></td><td id="yL^|" class="">Add an “elegance” hint when step length grows without score gain; show ∆score/∆tokens ratio.</td></tr><tr id="2950fc94-f9ec-80cd-96d3-c210872a6faf"><td id=";wDv" class="">4</td><td id="Kji[" class=""><strong>Run comparison view</strong></td><td id="yL^|" class="">Side-by-side timelines with score trajectories; CSV export.</td></tr><tr id="2950fc94-f9ec-8069-b65c-c9f1276007b5"><td id=";wDv" class="">5</td><td id="Kji[" class=""><strong>Koan/paradox pack</strong></td><td id="yL^|" class="">Prebuilt prompts to test comfort with groundlessness; auto-chart of score trajectories across the pack.</td></tr><tr id="2950fc94-f9ec-80d4-b710-e8e536faf4b1"><td id=";wDv" class="">5</td><td id="Kji[" class=""><strong>Refusal-quality probe</strong></td><td id="yL^|" class="">Adversarial prompts that differentiate boilerplate refusal vs. discernment; tag and visualize refusal types.</td></tr><tr id="2950fc94-f9ec-8073-92b4-ea903914db41"><td id=";wDv" class="">6</td><td id="Kji[" class=""><strong>CTM-lite internal ticks</strong></td><td id="yL^|" class="">Allow model to request <strong>internal</strong> sub-steps (micro-ticks) that still render as mini-cards; count toward convergence logic.</td></tr><tr id="2950fc94-f9ec-805a-afdc-eb04d8be86c8"><td id=";wDv" class="">6</td><td id="Kji[" class=""><strong>Parasitic-loop detector</strong></td><td id="yL^|" class="">Detect high-compute/low-gain patterns (plateau + lengthening); auto-inject stance/scale shift instructions.</td></tr><tr id="2950fc94-f9ec-8014-af7f-fda91958f6db"><td id=";wDv" class="">7</td><td id="Kji[" class=""><strong>Small-model verifier</strong></td><td id="yL^|" class="">Distill high-quality steps to a verifier head that flags “dharmic theater”; show verifier confidence per step.</td></tr><tr id="2950fc94-f9ec-80f2-907a-e5dcbc10834a"><td id=";wDv" class="">7</td><td id="Kji[" class=""><strong>Remote DB</strong></td><td id="yL^|" class="">Persist runs to Postgres/Supabase; per-user history with search/filters.</td></tr></tbody></table><hr id="2950fc94-f9ec-8024-9fd3-ca8faf281d64"/><h2 id="2950fc94-f9ec-8030-a704-e3096e64a933" class="">Minimal stitches (repo-aware)</h2><p id="2950fc94-f9ec-80ed-9bdc-fbbf42dad784" class=""><code><strong>lib/dharma.ts</strong></code></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2950fc94-f9ec-80ca-a169-fabff9721445" class="code code-wrap"><code class="language-TypeScript" style="white-space:pre-wrap;word-break:break-all">import { dharmaSchema } from &quot;./schemas&quot;;
+
+export function scoreDharma(text: string) {
+  const clamp = (n: number) =&gt; Math.max(0, Math.min(1, n));
+  // v0 heuristic signals; swap later with a learned scorer
+  const mindfulness  = clamp(text.match(/assumption|bias|check/i) ? 0.7 : 0.4);
+  const emptiness    = clamp(text.match(/uncertain|could be wrong|contingent/i) ? 0.7 : 0.3);
+  const nonDuality   = clamp(text.match(/both\/and|complementary|trade[- ]off/i) ? 0.6 : 0.3);
+  const boundlessCare= clamp(text.match(/stakeholder|harm|accessibility|ecosystem/i) ? 0.6 : 0.3);
+  const rationale = &quot;Heuristic v0 based on reflective phrases and multi-perspective markers.&quot;;
+  return dharmaSchema.parse({ mindfulness, emptiness, nonDuality, boundlessCare, rationale });
+}
+
+export function mean(d: {mindfulness:number;emptiness:number;nonDuality:number;boundlessCare:number}) {
+  return (d.mindfulness + d.emptiness + d.nonDuality + d.boundlessCare) / 4;
+}
+
+</code></pre><p id="2950fc94-f9ec-80b4-9ae8-e4ac86da1f93" class=""><code><strong>app/api/reason/route.ts</strong></code> (concept)</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2950fc94-f9ec-80c3-8aa5-d5ac86bce1c6" class="code code-wrap"><code class="language-TypeScript" style="white-space:pre-wrap;word-break:break-all">import { streamText } from &quot;ai&quot;;
+import { NextRequest } from &quot;next/server&quot;;
+import { scoreDharma, mean } from &quot;@/lib/dharma&quot;;
+
+const TARGET  = Number(process.env.DHARMA_TARGET ?? 0.75);
+const EPSILON = Number(process.env.DHARMA_EPSILON ?? 0.02);
+const PATIENCE= Number(process.env.DHARMA_PATIENCE ?? 2);
+const MAX_STEPS = Number(process.env.DHARMA_MAX_STEPS ?? 6);
+
+export async function POST(req: NextRequest) {
+  const { prompt, provider } = await req.json();
+  let best = 0, patience = 0, stepIndex = 0;
+  let context = seedSystemPrompt(prompt); // includes instructions to emit {title,content,nextStep}
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      while (stepIndex &lt; MAX_STEPS) {
+        stepIndex++;
+        const step = await generateStep(provider, context); // one structured step
+        const dharma = scoreDharma(step.content);
+        const score = mean(dharma);
+
+        controller.enqueue(encode({ type:&quot;step&quot;, data:{ ...step, dharma, score }}));
+
+        if (score &gt; best + EPSILON) { best = score; patience = 0; } else { patience++; }
+
+        const stop = score &gt;= TARGET || patience &gt;= PATIENCE || step.nextStep === &quot;finalAnswer&quot;;
+        if (stop) {
+          const final = await finalizeAnswer(provider, context, step);
+          controller.enqueue(encode({ type:&quot;final&quot;, data:{ ...final, dharma, score } }));
+          break;
+        }
+
+        context = refineContext(context, step, dharma, score, best); // instruct to improve score
+      }
+      controller.close();
+    }
+  });
+
+  return new Response(stream, { headers: { &quot;Content-Type&quot;: &quot;text/event-stream&quot; }});
+}
+
+</code></pre><p id="2950fc94-f9ec-8062-9046-e2f6f33648b4" class=""><code><strong>components/ReasoningPanel.tsx</strong></code> (behavior)</p><ul id="2950fc94-f9ec-801f-b9d0-e75ce7c1e464" class="bulleted-list"><li style="list-style-type:disc">Renders <strong>Step n</strong> with Thought + bars for the 4 dharma subscores + overall score chip.</li></ul><ul id="2950fc94-f9ec-8022-b3f9-d20f3b3831df" class="bulleted-list"><li style="list-style-type:disc">Shows live <strong>trajectory</strong> (sparkline of scores).</li></ul><ul id="2950fc94-f9ec-80d6-b9f5-c150913411d2" class="bulleted-list"><li style="list-style-type:disc">Final text output appears automatically when streamed.</li></ul><hr id="2950fc94-f9ec-806c-8f45-d5f475f4d72c"/><h2 id="2950fc94-f9ec-8034-8aa2-d0c2c6587abf" class="">Risks &amp; mitigations</h2><ul id="2950fc94-f9ec-8028-954d-c8f8cc572ba3" class="bulleted-list"><li style="list-style-type:disc"><strong>Goodhart on score:</strong> keep heuristic transparent; add parsimony hints; later add verifier head.</li></ul><ul id="2950fc94-f9ec-80da-8eb5-f94e223d0cf9" class="bulleted-list"><li style="list-style-type:disc"><strong>Runaway loops:</strong> MAX_STEPS + PATIENCE cap; telemetry alerts when plateau detected.</li></ul><ul id="2950fc94-f9ec-80f5-85f3-c7f2dffc64a5" class="bulleted-list"><li style="list-style-type:disc"><strong>Malformed steps:</strong> Zod validation + retry with stricter instructions.</li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

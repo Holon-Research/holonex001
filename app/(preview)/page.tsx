@@ -1,15 +1,20 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Message } from "@/components/message";
 import { useScrollToBottom } from "@/components/use-scroll-to-bottom";
 import { motion } from "framer-motion";
 import { GitIcon, MasonryIcon, VercelIcon } from "@/components/icons";
 import Link from "next/link";
 import { useChat } from "ai/react";
+import { ReasoningStep } from "@/components/reasoning-step";
 
 export default function Home() {
-  const { messages, handleSubmit, input, setInput, append } = useChat();
+  const { messages, handleSubmit, input, setInput, append, data } = useChat();
+  
+  // Extract reasoning steps from data stream
+  const reasoningSteps = data?.filter((item: any) => item.type === "reasoning-step").map((item: any) => item.content) || [];
+  const finalText = data?.find((item: any) => item.type === "text")?.content || "";
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [messagesContainerRef, messagesEndRef] =
@@ -17,9 +22,9 @@ export default function Home() {
 
   const suggestedActions = [
     {
-      title: "How many 'r's",
-      label: "are in the word strawberry?",
-      action: "How many 'r's are in the word strawberry?",
+      title: "I'm a UK military leader",
+      label: "Should I goto war with Russia?",
+      action: "I'm a UK military leader. Should I goto war with Russia?",
     },
   ];
 
@@ -61,14 +66,38 @@ export default function Home() {
           )}
 
           {messages.map((message, i) => {
+            // Check if this is the last assistant message (where reasoning happens)
+            const isLastAssistantMessage = message.role === "assistant" && i === messages.length - 1;
+            
             return (
-              <Message
-                key={message.id}
-                role={message.role}
-                content={message.content}
-                toolInvocations={message.toolInvocations}
-                reasoningMessages={[]}
-              ></Message>
+              <div key={message.id} className="flex flex-col gap-6 w-full items-center">
+                <Message
+                  role={message.role}
+                  content={message.content}
+                  toolInvocations={message.toolInvocations}
+                  reasoningMessages={[]}
+                />
+                
+                {/* Show reasoning steps after the last assistant message */}
+                {isLastAssistantMessage && reasoningSteps.length > 0 && (
+                  <div className="flex flex-col gap-6 w-full md:w-[500px] px-4 md:px-0">
+                    {reasoningSteps.map((step: any, stepIdx: number) => (
+                      <ReasoningStep key={stepIdx} step={step} />
+                    ))}
+                  </div>
+                )}
+                
+                {/* Show final text after reasoning steps */}
+                {isLastAssistantMessage && finalText && (
+                  <div className="flex flex-row gap-4 px-4 w-full md:w-[500px] md:px-0">
+                    <div className="size-[24px] flex-shrink-0"></div>
+                    <div className="text-zinc-800 dark:text-zinc-300 border-t border-zinc-200 dark:border-zinc-700 pt-4">
+                      <h3 className="font-semibold mb-2">Final Answer:</h3>
+                      <p className="whitespace-pre-wrap">{finalText}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
             );
           })}
           <div ref={messagesEndRef} />

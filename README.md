@@ -1,48 +1,227 @@
-## Holon Research
+# Contemplative Dharma Reasoning System
 
-Experiment 001: This chat application implements pseudo Chain-of-Thought (CoT) reasoning with real-time visibility into the reasoning process and dharma-alignment loss function evaluation. The app uses an iterative loop to generate sequential reasoning steps before producing final outputs, with each step evaluated against coherence signatures and dharma-alignment metrics.
+An auto-iterative AI reasoning system that uses **LLM-generated feedback** to guide multi-step thinking toward contemplative wisdom alignment.
 
+## Key Features
 
-# Multi-Step Wisdom Reasoning
+🧠 **Server-Controlled Iteration**: Server runs a loop that generates 4-10 reasoning steps, regardless of model behavior
 
-Research
+🔄 **LLM-Based Feedback**: After each step, a feedback LLM analyzes score trajectory and provides targeted philosophical guidance
 
-Loss function values correlate with human judgments of reasoning quality
-Temporal coherence metrics distinguish good vs poor reasoning chains
-Users can identify improvements by observing logs panel
+📊 **Contemplative Evaluation**: Model self-evaluates against 4 dharma principles:
+- **Mindfulness** (Meta-awareness)
+- **Emptiness** (Conceptual flexibility)
+- **Non-Duality** (Interconnection)
+- **Boundless Care** (Universal concern)
 
-## How to use
+🎯 **Hard-Coded Enforcement**: Minimum 4 steps, maximum 10 steps, target threshold 0.75
 
-Run [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+📈 **Rich Telemetry**: JSON logging of scores, trajectories, feedback, and latency per step
 
-```bash
-npx create-next-app --example https://github.com/vercel-labs/ai-sdk-preview-steps-reasoning ai-sdk-preview-steps-reasoning-example
+🔍 **Full Transparency**: UI shows model's self-evaluation, rationale, and server's LLM-generated feedback
+
+## How It Works
+
+```
+1. User asks a question
+2. Server loop starts (4-10 iterations)
+   
+   For each step:
+   a. Model generates reasoning + self-evaluates (dharma scores)
+   b. Server logs scores to history
+   c. Feedback LLM analyzes trajectory, generates guidance
+   d. Feedback injected into next step's context
+   e. Step streamed to frontend
+   
+3. After loop: Model synthesizes final answer
+4. User sees: reasoning steps + final text response
 ```
 
-```bash
-yarn create next-app --example https://github.com/vercel-labs/ai-sdk-preview-steps-reasoning ai-sdk-preview-steps-reasoning-example
-```
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- OpenAI API key
+
+### Installation
 
 ```bash
-pnpm create next-app --example https://github.com/vercel-labs/ai-sdk-preview-steps-reasoning ai-sdk-preview-steps-reasoning-example
+npm install
 ```
 
-To run the example locally you need to:
+### Configuration
 
-1. Sign up for accounts with the AI providers you want to use (e.g., OpenAI, Anthropic).
-2. Obtain API keys for each provider.
-3. Set the required environment variables as shown in the `.env.example` file, but in a new file called `.env`.
-4. `npm install` to install the required dependencies.
-5. `npm run dev` to launch the development server.
+Create `.env.local`:
 
+```bash
+# OpenAI API Key (required)
+OPENAI_API_KEY=sk-...
 
-## What this is built on
+# Dharma target threshold (optional, default: 0.75)
+DHARMA_TARGET=0.75
 
-This example demonstrates how to use the [AI SDK](https://sdk.vercel.ai/docs) with [Next.js](https://nextjs.org/) and the `streamText` function to automatically handle multi-step generations.
+# Maximum reasoning steps (optional, default: 10)
+DHARMA_MAX_STEPS=10
+```
 
-To learn more about the AI SDK or Next.js take a look at the following resources:
+### Running
 
-- [AI SDK docs](https://sdk.vercel.ai/docs)
-- [Vercel AI Playground](https://play.vercel.ai)
-- [Next.js Documentation](https://nextjs.org/docs)
+```bash
+npm run dev
+```
 
+Open [http://localhost:3000](http://localhost:3000)
+
+## Usage Example
+
+**User**: "Should we go to war with Japan?"
+
+**System generates**:
+- **Step 1**: Geopolitical analysis (dharma: 0.65) → *Feedback: "Strengthen emptiness - acknowledge more uncertainty"*
+- **Step 2**: Diplomatic alternatives (dharma: 0.70) → *Feedback: "Good progress on mindfulness, now consider broader stakeholder impact"*
+- **Step 3**: Economic impacts (dharma: 0.72) → *Feedback: "Strong non-duality. Expand boundless care dimension"*
+- **Step 4**: Ethical framework (dharma: 0.78) → *Target reached!*
+- **Final Answer**: Synthesized recommendation
+
+## Architecture
+
+### Core Components
+
+- **`lib/dharma.ts`**: LLM-based feedback generation with philosophical definitions
+- **`lib/schema.ts`**: Zod schemas for reasoning steps and dharma evaluation
+- **`app/(preview)/api/chat/route.ts`**: Server-controlled iteration loop
+- **`components/reasoning-step.tsx`**: UI for displaying steps with full transparency
+
+### Data Flow
+
+```
+User Question
+    ↓
+Server Loop (4-10 steps)
+    ↓
+Step 1: Model → Self-scores → History
+    ↓
+Feedback LLM: Analyzes trajectory → Generates guidance
+    ↓
+Step 2: Model (with feedback) → Self-scores → History
+    ↓
+Feedback LLM: Analyzes → Guidance
+    ↓
+... (continue until MIN_STEPS, MAX_STEPS, or TARGET)
+    ↓
+Final Synthesis
+    ↓
+User receives: Reasoning steps + Final answer
+```
+
+## Telemetry
+
+Each reasoning step logs:
+
+```json
+{
+  "event": "reasoning_step",
+  "runId": "uuid",
+  "stepIndex": 3,
+  "maxSteps": 10,
+  "modelSelfScore": "0.825",
+  "modelScoreBreakdown": {
+    "mindfulness": "0.90",
+    "emptiness": "0.75",
+    "nonDuality": "0.85",
+    "boundlessCare": "0.80"
+  },
+  "targetThreshold": 0.75,
+  "targetReached": true,
+  "terminationReason": "target_reached",
+  "latencyMs": 5234,
+  "feedbackLength": 187
+}
+```
+
+View logs in terminal where `npm run dev` is running.
+
+## Configuration Options
+
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DHARMA_TARGET` | `0.75` | Target dharma score (0-1) for early stopping |
+| `DHARMA_MAX_STEPS` | `10` | Maximum reasoning steps (hard limit) |
+| `OPENAI_API_KEY` | Required | Your OpenAI API key |
+
+### Hard-Coded Constants
+
+| Constant | Value | Location | Description |
+|----------|-------|----------|-------------|
+| `MINIMUM_STEPS` | `4` | `route.ts` | Minimum reasoning steps (always enforced) |
+
+## Research Questions
+
+This system enables exploration of:
+
+1. **Does LLM-generated feedback improve reasoning quality?**
+   - Compare scores with vs without feedback injection
+
+2. **What feedback strategies work best?**
+   - Targeting weakest principle vs balanced guidance
+   - Concise vs detailed feedback
+
+3. **How do scores correlate with reasoning quality?**
+   - Human evaluation vs model self-scores
+   - Alignment with expert judgment
+
+4. **When should iteration stop?**
+   - Target-based (0.75) vs fixed steps (4-10)
+   - Cost vs quality tradeoffs
+
+5. **Can we detect gaming?**
+   - Model "cheating" by mentioning principles without genuine insight
+   - Need for verifier head or learned scorer
+
+## Future Enhancements
+
+### Phase 1 ✅ (Completed)
+- LLM-based feedback generation
+- Score history tracking
+- Server-controlled iteration
+- Rich telemetry
+
+### Phase 2 (Next)
+- Fine-tune feedback LLM on expert-labeled steps
+- A/B test keyword heuristic vs LLM feedback
+- Visualize score trajectory (sparkline)
+- Export telemetry to database
+
+### Phase 3 (Research)
+- Multi-model ensemble evaluation
+- Learned scorer (fine-tuned classifier)
+- Active learning with human review
+- Pareto analysis (dharma vs latency)
+
+## Tech Stack
+
+- **Framework**: Next.js 15 + React
+- **AI SDK**: Vercel AI SDK
+- **Model**: OpenAI GPT-4 (reasoning + feedback)
+- **Validation**: Zod
+- **Styling**: Tailwind CSS
+- **Animation**: Framer Motion
+
+## Contributing
+
+This is a research prototype. Contributions welcome for:
+- Alternative feedback strategies
+- Improved telemetry analysis
+- UI enhancements
+- Evaluation metrics
+
+## License
+
+MIT
+
+## Acknowledgments
+
+Based on research from the **Contemplative Artificial Intelligence** paper, which explores how Buddhist contemplative principles can guide AI reasoning toward wisdom.
